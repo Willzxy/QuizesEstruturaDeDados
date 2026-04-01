@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogar - Quizes Brasil</title>
+    <title>Jogar - Quizes</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
     <header class="quiz-header">
-        <h1>Qui<span class="highlight">|</span>es Brasil</h1>
+        <h1>Qui<span class="highlight">|</span>es</h1>
         <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
@@ -19,7 +19,7 @@
 
     <main class="quiz-main">
         <div id="quiz-area" class="card unlocked quiz-card">
-            <h2 id="question-text" class="question-title">Carregando pergunta...</h2>
+            <h2 id="question-text" class="question-title">A carregar pergunta...</h2>
             
             <div id="options-container" class="options-grid">
             </div>
@@ -46,8 +46,8 @@
             </div>
 
             <div style="margin-top: 25px;">
-                <input type="text" id="username-input" placeholder="Digite seu nome para o ranking" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit; font-size: 16px;">
-                <button id="save-score-btn" class="btn-primary">Salvar e Ver Ranking</button>
+                <input type="text" id="username-input" placeholder="Introduza o seu nome para o ranking" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit; font-size: 16px;">
+                <button id="save-score-btn" class="btn-primary">Guardar e Ver Ranking</button>
             </div>
         </div>
 
@@ -55,7 +55,7 @@
             <h2 class="question-title">🏆 Top 10 Melhores 🏆</h2>
             
             <ul id="leaderboard-list" style="list-style: none; padding: 0; margin: 20px 0; text-align: left;">
-                <li style="text-align: center;">Carregando ranking...</li>
+                <li style="text-align: center;">A carregar ranking...</li>
             </ul>
 
             <button onclick="window.location.reload()" class="btn-secondary">Jogar Novamente</button>

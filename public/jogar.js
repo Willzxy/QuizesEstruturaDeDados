@@ -1,32 +1,24 @@
-// Importações do Firebase
+// 1. Importações do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// COLOQUE SUAS CHAVES DO FIREBASE AQUI
+// 2. COLOQUE AQUI AS CONFIGURAÇÕES DO SEU FIREBASE
 const firebaseConfig = {
-
   apiKey: "AIzaSyBH8X1xdGPbtOPCTv07629vOPcW7zLPSbk",
-
   authDomain: "quiz-projeto-b5274.firebaseapp.com",
-
   projectId: "quiz-projeto-b5274",
-
   storageBucket: "quiz-projeto-b5274.firebasestorage.app",
-
   messagingSenderId: "975123081436",
-
   appId: "1:975123081436:web:45d38d6b85bb9305f4ec19",
-
   measurementId: "G-54K23RJ7ZE"
-
 };
 
 
-// Inicializar Firebase
+// 3. Inicializar o Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Base de dados de perguntas
+// 4. Base de dados de perguntas
 const questions = [
     { question: "Qual é o maior planeta do nosso Sistema Solar?", options: ["Terra", "Marte", "Júpiter", "Saturno", "Vênus"], correctAnswerIndex: 2 },
     { question: "Quem pintou a obra-prima 'Mona Lisa'?", options: ["Vincent van Gogh", "Pablo Picasso", "Michelangelo", "Leonardo da Vinci", "Claude Monet"], correctAnswerIndex: 3 },
@@ -40,13 +32,13 @@ const questions = [
     { question: "Qual país sediou a primeira Copa do Mundo de Futebol em 1930?", options: ["Brasil", "Itália", "França", "Argentina", "Uruguai"], correctAnswerIndex: 4 }
 ];
 
-// Variáveis de Estado
+// 5. Variáveis de Estado
 let currentQuestionIndex = 0;
 let score = 0;
 let finalScore = 0;
 let selectedOptionIndex = null;
 
-// Elementos do DOM
+// 6. Elementos do DOM
 const questionText = document.getElementById('question-text');
 const optionsContainer = document.getElementById('options-container');
 const nextBtn = document.getElementById('next-btn');
@@ -58,7 +50,7 @@ const saveArea = document.getElementById('save-area');
 const leaderboardArea = document.getElementById('leaderboard-area');
 const saveScoreBtn = document.getElementById('save-score-btn');
 
-// Inicialização
+// 7. Lógica do Quiz
 function startQuiz() {
     currentQuestionIndex = 0;
     score = 0;
@@ -75,7 +67,7 @@ function loadQuestion() {
     questionText.textContent = currentQuestion.question;
     questionCounter.textContent = `Pergunta ${currentQuestionIndex + 1} de ${questions.length}`;
     
-    const progressPercentage = ((currentQuestionIndex) / questions.length) * 100;
+    const progressPercentage = (currentQuestionIndex / questions.length) * 100;
     progressBar.style.width = `${progressPercentage}%`;
 
     currentQuestion.options.forEach((option, index) => {
@@ -108,11 +100,13 @@ function handleNextQuestion() {
     if (currentQuestionIndex < questions.length) {
         loadQuestion();
     } else {
+        // Quando as perguntas acabam, mostra o ecrã para guardar o nome
         showSaveArea();
     }
 }
 
 function showSaveArea() {
+    // Esconde o quiz e mostra o formulário de guardar
     quizArea.classList.add('hidden');
     saveArea.classList.remove('hidden');
 
@@ -128,64 +122,52 @@ function showSaveArea() {
     document.getElementById('wrong-answers').textContent = wrongAnswers;
 }
 
-// ----------------------------------------------------
-// Lógica de Salvar no Firebase e Mostrar Ranking
-// ----------------------------------------------------
-
-// 1. Clicou em "Salvar e Ver Ranking"
+// 8. Lógica de Guardar no Firebase e Mostrar Ranking
 saveScoreBtn.addEventListener('click', async () => {
     const usernameInput = document.getElementById('username-input');
     const name = usernameInput.value.trim();
 
     if (name === "") {
-        alert("Por favor, digite seu nome!");
+        alert("Por favor, introduza o seu nome!");
         return;
     }
 
-    // Desabilita o botão para não salvar duas vezes
     saveScoreBtn.disabled = true;
-    saveScoreBtn.textContent = "Salvando...";
+    saveScoreBtn.textContent = "A guardar...";
 
     try {
-        // Salva na coleção "ranking" do Firestore
         await addDoc(collection(db, "ranking"), {
             nome: name,
             pontuacao: finalScore,
             data: new Date()
         });
         
-        // Se salvou com sucesso, chama a tela de Leaderboard
         carregarLeaderboard();
         
     } catch (e) {
-        console.error("Erro ao salvar documento: ", e);
-        alert("Ocorreu um erro ao salvar sua pontuação.");
+        console.error("Erro ao guardar documento: ", e);
+        alert("Ocorreu um erro ao guardar a sua pontuação. Verifique se as regras do Firestore estão abertas.");
         saveScoreBtn.disabled = false;
-        saveScoreBtn.textContent = "Salvar e Ver Ranking";
+        saveScoreBtn.textContent = "Guardar e Ver Ranking";
     }
 });
 
-// 2. Busca o Top 10 e mostra na tela
 async function carregarLeaderboard() {
-    // Esconde a tela de salvar e mostra a do leaderboard
     saveArea.classList.add('hidden');
     leaderboardArea.classList.remove('hidden');
 
     const leaderboardList = document.getElementById('leaderboard-list');
 
     try {
-        // Cria a busca: Coleção "ranking", ordenada por pontuação (decrescente), limite de 10
         const q = query(collection(db, "ranking"), orderBy("pontuacao", "desc"), limit(10));
         const querySnapshot = await getDocs(q);
 
-        // Limpa a lista de "Carregando..."
         leaderboardList.innerHTML = '';
 
         let posicao = 1;
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             
-            // Cria os elementos da lista (<li>)
             const li = document.createElement('li');
             li.style.padding = "10px";
             li.style.borderBottom = "1px solid #eee";
@@ -198,19 +180,16 @@ async function carregarLeaderboard() {
             posicao++;
         });
 
-        // Caso o banco esteja vazio (embora você acabe de salvar um dado)
         if (leaderboardList.innerHTML === '') {
             leaderboardList.innerHTML = '<li>Nenhum jogador no ranking ainda.</li>';
         }
 
     } catch (e) {
-        console.error("Erro ao buscar ranking: ", e);
+        console.error("Erro ao procurar ranking: ", e);
         leaderboardList.innerHTML = '<li style="color: red;">Erro ao carregar o ranking.</li>';
     }
 }
 
-// Event Listeners
+// 9. Iniciar Eventos
 nextBtn.addEventListener('click', handleNextQuestion);
-
-// Iniciar o jogo assim que o script carregar
 startQuiz();
