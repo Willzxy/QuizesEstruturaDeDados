@@ -63,25 +63,22 @@
     </main>
 
     <script type="module">
-        // 1. Importações do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // 2. ATENÇÃO: COLOQUE AQUI AS SUAS CHAVES VERDADEIRAS DO FIREBASE
         const firebaseConfig = {
-            apiKey: "SUA_API_KEY",
-            authDomain: "seu-projeto.firebaseapp.com",
-            projectId: "seu-projeto",
-            storageBucket: "seu-projeto.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
+          apiKey: "AIzaSyBH8X1xdGPbtOPCTv07629vOPcW7zLPSbk",
+          authDomain: "quiz-projeto-b5274.firebaseapp.com",
+          projectId: "quiz-projeto-b5274",
+          storageBucket: "quiz-projeto-b5274.firebasestorage.app",
+          messagingSenderId: "975123081436",
+          appId: "1:975123081436:web:45d38d6b85bb9305f4ec19",
+          measurementId: "G-54K23RJ7ZE"
         };
 
-        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 3. Base de dados de perguntas
         const questions = [
             { question: "Qual é o maior planeta do nosso Sistema Solar?", options: ["Terra", "Marte", "Júpiter", "Saturno", "Vênus"], correctAnswerIndex: 2 },
             { question: "Quem pintou a obra-prima 'Mona Lisa'?", options: ["Vincent van Gogh", "Pablo Picasso", "Michelangelo", "Leonardo da Vinci", "Claude Monet"], correctAnswerIndex: 3 },
@@ -95,13 +92,11 @@
             { question: "Qual país sediou a primeira Copa do Mundo de Futebol em 1930?", options: ["Brasil", "Itália", "França", "Argentina", "Uruguai"], correctAnswerIndex: 4 }
         ];
 
-        // 4. Variáveis de Estado
         let currentQuestionIndex = 0;
         let score = 0;
         let finalScore = 0;
         let selectedOptionIndex = null;
 
-        // 5. Elementos do DOM
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
         const nextBtn = document.getElementById('next-btn');
@@ -113,7 +108,6 @@
         const leaderboardArea = document.getElementById('leaderboard-area');
         const saveScoreBtn = document.getElementById('save-score-btn');
 
-        // 6. Lógica do Quiz
         function startQuiz() {
             currentQuestionIndex = 0;
             score = 0;
@@ -183,7 +177,6 @@
             document.getElementById('wrong-answers').textContent = wrongAnswers;
         }
 
-        // 7. Lógica de Salvar no Firebase e Mostrar Ranking
         saveScoreBtn.addEventListener('click', async () => {
             const usernameInput = document.getElementById('username-input');
             const name = usernameInput.value.trim();
