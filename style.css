@@ -1,0 +1,344 @@
+/* ==========================================================================
+   1. VARIÁVEIS E RESET
+   ========================================================================== */
+:root {
+    --bg-color: #0f172a;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #6366f1;
+    --card-bg: #1e293b;
+    --card-locked: #0b1121;
+    --border-color: #334155;
+    --locked-text: #475569;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   2. ESTILOS GLOBAIS
+   ========================================================================== */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+}
+
+h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 0.5rem;
+}
+
+.highlight {
+    color: var(--primary);
+    font-weight: 300;
+    margin: 0 2px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 400;
+}
+
+/* ==========================================================================
+   3. COMPONENTES COMUNS (Cards e Botões)
+   ========================================================================== */
+.card {
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.card.unlocked {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary, .btn-secondary {
+    padding: 1rem 2rem;
+    border-radius: 99px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    display: inline-block;
+    width: 100%;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:disabled {
+    background: var(--border-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    margin-top: 1.5rem;
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-main);
+}
+
+/* ==========================================================================
+   4. TELA INICIAL (index.html)
+   ========================================================================== */
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+main {
+    width: 100%;
+    max-width: 1100px;
+    animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-grid .card {
+    min-height: 220px;
+}
+
+.category-grid .card.unlocked {
+    cursor: pointer;
+}
+
+.category-grid .card.unlocked:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.category-grid .card.unlocked::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.category-grid .card.unlocked:hover::before {
+    transform: scaleX(1);
+}
+
+.card.locked {
+    background-color: var(--card-locked);
+    border: 1px solid transparent;
+    cursor: not-allowed;
+    box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.card-icon {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 1.25rem;
+    transition: transform 0.3s ease;
+}
+
+.card.unlocked:hover .card-icon {
+    transform: scale(1.1);
+}
+
+.unlocked .card-icon { stroke: var(--primary); }
+.locked .card-icon { stroke: var(--locked-text); }
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.locked .card-title {
+    color: var(--locked-text);
+}
+
+.lock-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--border-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--locked-text);
+}
+
+/* ==========================================================================
+   5. TELA DE JOGO (jogar.html)
+   ========================================================================== */
+.quiz-header {
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+.quiz-main {
+    max-width: 800px;
+}
+
+.quiz-card {
+    padding: 3rem 2.5rem;
+    align-items: stretch;
+    text-align: left;
+}
+
+.question-title {
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+#quiz-area .question-title {
+    text-align: left;
+}
+
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.option-btn {
+    background: var(--card-locked);
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.option-btn:hover:not(:disabled) {
+    border-color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.option-btn.selected {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background: var(--card-bg);
+    border-radius: 99px;
+    margin: 1.5rem 0 0.5rem 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#result-area {
+    text-align: center;
+    align-items: center;
+}
+
+.score-number {
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    margin: 2.5rem 0;
+}
+
+.stat-box {
+    background: var(--card-locked);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-box span {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.stat-box.correct span { color: #10b981; }
+.stat-box.wrong span { color: #ef4444; }
+
+/* ==========================================================================
+   6. ANIMAÇÕES E UTILITÁRIOS
+   ========================================================================== */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hidden {
+    display: none !important;
+}

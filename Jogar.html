@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogar - Qui|es Brasil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+    <header class="quiz-header">
+        <h1>Qui<span class="highlight">|</span>es Brasil</h1>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <p class="subtitle" id="question-counter">Pergunta 1 de 10</p>
+    </header>
+
+    <main class="quiz-main">
+        <div id="quiz-area" class="card unlocked quiz-card">
+            <h2 id="question-text" class="question-title">Carregando pergunta...</h2>
+            
+            <div id="options-container" class="options-grid">
+                </div>
+
+            <button id="next-btn" class="btn-primary" disabled>Próxima Pergunta</button>
+        </div>
+
+        <div id="result-area" class="card unlocked quiz-card hidden">
+            <h2 class="question-title">Fim de Jogo!</h2>
+            <div class="score-display">
+                <span id="score-text" class="highlight score-number">0</span>
+                <p>Pontos de 100 possíveis</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-box correct">
+                    <span id="correct-answers">0</span>
+                    <p>Acertos</p>
+                </div>
+                <div class="stat-box wrong">
+                    <span id="wrong-answers">0</span>
+                    <p>Erros</p>
+                </div>
+            </div>
+
+            <a href="/" class="btn-secondary">Voltar ao Início</a>
+        </div>
+    </main>
+
+    <script src="jogar.js"></script>
+</body>
+</html>
