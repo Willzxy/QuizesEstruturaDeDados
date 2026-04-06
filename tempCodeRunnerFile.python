@@ -1,0 +1,21 @@
+class Nodo:
+    def __init__(self, valor):
+        self.dado = valor
+        self.esquerda = None
+        self.direita = None
+
+raiz = Nodo("A")
+filho_esq = Nodo("B")
+filho_dir = Nodo("C")
+
+raiz.esquerda = filho_esq
+raiz.direita = filho_dir
+
+raiz.esquerda.esquerda = Nodo("D")
+
+print(f"Raiz: {raiz.dado}")
+print(f"Filho Esquerdo: {raiz.esquerda.dado}")
+print(f"Filho Direito: {raiz.direita.dado}")
+print(f"Neto (esquerda do B): {raiz.esquerda.esquerda.dado}")
+
+        
